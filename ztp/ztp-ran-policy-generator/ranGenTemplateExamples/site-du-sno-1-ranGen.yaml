@@ -47,6 +47,7 @@ sourceFiles:
       resourceName: du_mh
   - fileName: PerformanceProfile
     name: "perfprofile-policy"
+    policyName: "perfprofile-policy"
     spec:
       # ex: overriding the additionalKernelArgs values exist in the source policy file PerformanceProfile
       additionalKernelArgs:
