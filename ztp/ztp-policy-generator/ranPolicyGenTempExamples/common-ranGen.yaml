@@ -35,6 +35,8 @@ sourceFiles:
     policyName: "pao-sub-oper-policy"
   - fileName: PaoSubscriptionCatalogSource
     policyName: "pao-sub-catalog-policy"
+  - fileName: ClusterLogNsOper
+    policyName: "log-sub-nsoper"
   - fileName: ClusterLogSubscription
     policyName: "log-sub-policy"
   - fileName: MachineConfigContainerMountNS
