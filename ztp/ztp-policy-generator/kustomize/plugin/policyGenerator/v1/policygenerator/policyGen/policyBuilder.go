@@ -7,6 +7,7 @@ import (
 	"io"
 	"reflect"
 	"strings"
+	"strconv"
 )
 
 type PolicyBuilder struct {
@@ -216,18 +217,25 @@ func (pbuilder *PolicyBuilder) getPolicyNsPath() (string, string, string, string
 	matchValue := ""
 
 	if pbuilder.PolicyGenTemp.Metadata.Name != "" {
-		if pbuilder.PolicyGenTemp.Metadata.Labels.SiteName != utils.NotApplicable {
+		cval,err := strconv.ParseBool(pbuilder.PolicyGenTemp.Metadata.Labels.Common)
+		if err != nil {
+			cval = false
+		}
+
+		if pbuilder.PolicyGenTemp.Metadata.Labels.SiteName != utils.NotApplicable &&
+			pbuilder.PolicyGenTemp.Metadata.Labels.SiteName != "" {
 			ns = utils.SiteNS
 			matchKey = utils.Sites
 			matchOper = utils.InOper
 			matchValue = pbuilder.PolicyGenTemp.Metadata.Labels.SiteName
 			path = utils.Sites + "/" + pbuilder.PolicyGenTemp.Metadata.Labels.SiteName
-		} else if pbuilder.PolicyGenTemp.Metadata.Labels.GroupName != utils.NotApplicable {
+		} else if pbuilder.PolicyGenTemp.Metadata.Labels.GroupName != utils.NotApplicable &&
+			pbuilder.PolicyGenTemp.Metadata.Labels.GroupName != "" {
 			ns = utils.GroupNS
 			matchKey = pbuilder.PolicyGenTemp.Metadata.Labels.GroupName
 			matchOper = utils.ExistOper
 			path = utils.Groups + "/" + pbuilder.PolicyGenTemp.Metadata.Labels.GroupName
-		} else if pbuilder.PolicyGenTemp.Metadata.Labels.Common {
+		} else if cval {
 			ns = utils.CommonNS
 			matchKey = utils.Common
 			matchOper = utils.InOper
@@ -242,12 +250,16 @@ func (pbuilder *PolicyBuilder) getPolicyNsPath() (string, string, string, string
 
 func (pbuilder *PolicyBuilder) getPolicyName() string {
 	pname := ""
+	cval,err := strconv.ParseBool(pbuilder.PolicyGenTemp.Metadata.Labels.Common)
+	if err != nil {
+		cval = false
+	}
 
 	if pbuilder.PolicyGenTemp.Metadata.Labels.SiteName != utils.NotApplicable {
 		pname = pbuilder.PolicyGenTemp.Metadata.Labels.SiteName
 	} else if pbuilder.PolicyGenTemp.Metadata.Labels.GroupName != utils.NotApplicable {
 		pname = pbuilder.PolicyGenTemp.Metadata.Labels.GroupName
-	} else if pbuilder.PolicyGenTemp.Metadata.Labels.Common {
+	} else if cval {
 		pname = utils.Common
 	} else {
 		panic("Error: missing metadata info either siteName, groupName or common should be set")
