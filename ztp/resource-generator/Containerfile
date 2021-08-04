@@ -26,7 +26,7 @@ ARG ZIP_NAME
 COPY --chown=1001 $ZIP_NAME  /usr/src/hook/
 RUN (unzip $ZIP_NAME || true) && rm $ZIP_NAME
 WORKDIR /usr/src/hook/cnf-features-deploy/ztp/ztp-policy-generator/kustomize/plugin/policyGenerator/v1/policygenerator
-RUN go build -mod=vendor -o PolicyGenerator && \
+RUN go build -o PolicyGenerator && \
     chown -R 1001:1001 /usr/src/hook
 USER 1001
 WORKDIR /usr/src/hook
