@@ -10,10 +10,11 @@
 # <your Red Hat email>
 # - Specify the type of your request:
 # Type 1
-REG ?= quay.io/redhat_emp1/ztp-site-generator
+#REG ?= quay.io/redhat_emp1/ztp-site-generator
+REG ?= quay.io/imiller/ztp-site-generator
 
 
-# The cnf-features-deploy zip file name. 
+# The cnf-features-deploy zip file name.
 ZIP_NAME ?= temp.zip
 all: prod
 
@@ -45,7 +46,7 @@ undeploy: ## Undeploy RBAC manifests and RAN Site CRD.
 	oc delete -k deployment
 
 make_zip:
-	zip -r ${ZIP_NAME} ../../../cnf-features-deploy/ztp ../../../cnf-features-deployfeature-configs
+	zip -r ${ZIP_NAME} ../../../cnf-features-deploy/ztp ../../../cnf-features-deploy/feature-configs
 build_image:
 	podman build --build-arg ZIP_NAME=${ZIP_NAME} -t ztp-site-generator:latest -f Containerfile
 clean_zip:

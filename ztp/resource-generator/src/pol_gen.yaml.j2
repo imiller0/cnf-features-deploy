@@ -5,6 +5,6 @@ kind: PolicyGenerator
 metadata:
   name: clusters-config-{{ folder.input }}
   namespace: cluster-config-generator
-argsOneLiner: "{{ folder.input }} ../source-cluster-crs {{ folder.output }} true false true"
+argsOneLiner: "{{ folder.input }} ../source-policy-crs {{ folder.output }} true false false"
 
 {% endfor %}

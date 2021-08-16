@@ -40,7 +40,7 @@ class SiteApi(Logger):
             self.api = client.CustomObjectsApi()
             self.group = "ran.openshift.io"
             self.version = "v1"
-            self.plural = "siteconfigs"
+            self.plural = "policygentemplates"
             self.watch = True
         except Exception as e:
             self.logger.exception(e)
