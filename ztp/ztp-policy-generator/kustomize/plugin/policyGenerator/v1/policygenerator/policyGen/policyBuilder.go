@@ -157,6 +157,7 @@ func (pbuilder *PolicyBuilder) setValues(sourceMap map[string]interface{}, value
 			}
 			continue
 		}
+
 		if reflect.ValueOf(sourceMap[k]).Kind() == reflect.Map {
 			sourceMap[k] = pbuilder.setValues(v.(map[string]interface{}), valueMap[k].(map[string]interface{}))
 		} else if reflect.ValueOf(v).Kind() == reflect.Slice ||
@@ -164,14 +165,14 @@ func (pbuilder *PolicyBuilder) setValues(sourceMap map[string]interface{}, value
 			intfArray := v.([]interface{})
 
 			if len(intfArray) > 0 && reflect.ValueOf(intfArray[0]).Kind() == reflect.Map {
-				tmpMapValues := make([]map[string]interface{}, len(intfArray))
 				vIntfArray := valueMap[k].([]interface{})
+				tmpMapValues := make([]map[string]interface{}, len(vIntfArray))
 
-				for id, intfMap := range intfArray {
-					if id < len(vIntfArray) {
-						tmpMapValues[id] = pbuilder.setValues(intfMap.(map[string]interface{}), vIntfArray[id].(map[string]interface{}))
+				for id, vIntfMap := range vIntfArray {
+					if id < len(intfArray) {
+						tmpMapValues[id] = pbuilder.setValues(intfArray[id].(map[string]interface{}), vIntfMap.(map[string]interface{}))
 					} else {
-						tmpMapValues[id] = intfMap.(map[string]interface{})
+						tmpMapValues[id] = vIntfMap.(map[string]interface{})
 					}
 				}
 				sourceMap[k] = tmpMapValues

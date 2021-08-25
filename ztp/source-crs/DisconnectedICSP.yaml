@@ -3,5 +3,7 @@ kind: ImageContentSourcePolicy
 metadata:
     name: disconnected-internal-icsp
 spec:
-    repositoryDigestMirrors: $mirrors
-
+    repositoryDigestMirrors:
+    - mirrors:
+      - registry.example.com:5000
+      source: registry.redhat.io
